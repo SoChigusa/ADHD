@@ -10,6 +10,7 @@ import { useAuthSession } from "@/hooks/use-auth-session";
 import { useWhispers } from "@/hooks/use-whispers";
 import { BrainStage } from "./brain-stage";
 import { CreateWhisperDialog } from "./create-whisper-dialog";
+import { ManageWhispersDialog } from "./manage-whispers-dialog";
 
 const sampleWhispers: Whisper[] = SAMPLE_WHISPERS.map((text, index) => ({
   id: `sample-${index}`,
@@ -23,6 +24,7 @@ export function AppShell() {
   const { status, profile, error, isSigningIn, isSigningOut, signIn, signOut } = useAuthSession();
   const { whispers, loading: whispersLoading, error: whispersError } = useWhispers(profile?.shareId ?? null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [manageDialogOpen, setManageDialogOpen] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [origin, setOrigin] = useState(process.env.NEXT_PUBLIC_APP_URL ?? "");
@@ -153,9 +155,29 @@ export function AppShell() {
       {error ? <p className="statusMessage errorMessage">{error}</p> : null}
       {whispersError ? <p className="statusMessage errorMessage">{whispersError}</p> : null}
 
-      <button className="addButton" type="button" onClick={() => setDialogOpen(true)} aria-label="つぶやきを追加">
-        +
-      </button>
+      <div className="floatingActions">
+        <button
+          className="manageButton"
+          type="button"
+          onClick={() => {
+            setDialogOpen(false);
+            setManageDialogOpen(true);
+          }}
+        >
+          一覧
+        </button>
+        <button
+          className="addButton"
+          type="button"
+          onClick={() => {
+            setManageDialogOpen(false);
+            setDialogOpen(true);
+          }}
+          aria-label="つぶやきを追加"
+        >
+          +
+        </button>
+      </div>
 
       <CreateWhisperDialog
         open={dialogOpen}
@@ -168,6 +190,15 @@ export function AppShell() {
         }}
         onSubmit={handleSubmit}
       />
+
+      {profile ? (
+        <ManageWhispersDialog
+          open={manageDialogOpen}
+          shareId={profile.shareId}
+          whispers={whispers}
+          onClose={() => setManageDialogOpen(false)}
+        />
+      ) : null}
     </main>
   );
 }

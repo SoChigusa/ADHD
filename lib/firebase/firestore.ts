@@ -2,7 +2,19 @@
 
 import type { User } from "firebase/auth";
 import type { Unsubscribe } from "firebase/firestore";
-import { addDoc, collection, doc, getDoc, onSnapshot, orderBy, query, runTransaction, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  runTransaction,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { MAX_WHISPER_LENGTH } from "@/lib/constants";
 import type { PublicProfile, UserProfile, Whisper } from "@/lib/types";
 import { createShareId } from "@/lib/share-id";
@@ -174,6 +186,33 @@ export async function addWhisper(input: { shareId: string; userId: string; text:
     createdAtMs: now,
     updatedAtMs: now,
   });
+}
+
+export async function updateWhisper(input: {
+  shareId: string;
+  whisperId: string;
+  text: string;
+}) {
+  const database = getDatabase();
+  const text = input.text.trim();
+
+  if (!text) {
+    throw new Error("つぶやきが空のままです。");
+  }
+
+  if (text.length > MAX_WHISPER_LENGTH) {
+    throw new Error(`つぶやきは ${MAX_WHISPER_LENGTH} 文字以内で入力してください。`);
+  }
+
+  await updateDoc(doc(database, "publicProfiles", input.shareId, "whispers", input.whisperId), {
+    text,
+    updatedAtMs: Date.now(),
+  });
+}
+
+export async function deleteWhisper(input: { shareId: string; whisperId: string }) {
+  const database = getDatabase();
+  await deleteDoc(doc(database, "publicProfiles", input.shareId, "whispers", input.whisperId));
 }
 
 export function subscribeToPublicProfile(
