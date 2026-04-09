@@ -4,36 +4,29 @@ import type { CSSProperties } from "react";
 import { useFloatingWhispers } from "@/hooks/use-floating-whispers";
 import type { Whisper } from "@/lib/types";
 import { BrainGraphic } from "./brain-graphic";
+import type { BrainGraphicCropPreset, BrainGraphicVariant } from "./brain-graphic";
 
 type BrainStageProps = {
   whispers: Whisper[];
-  eyebrow: string;
-  title: string;
-  description: string;
   emptyText: string;
+  graphicVariant?: BrainGraphicVariant;
+  graphicCropPreset?: BrainGraphicCropPreset;
 };
 
 export function BrainStage({
   whispers,
-  eyebrow,
-  title,
-  description,
   emptyText,
+  graphicVariant = "profile-cutaway",
+  graphicCropPreset = "top-60",
 }: BrainStageProps) {
   const floatingWhispers = useFloatingWhispers(whispers);
 
   return (
     <section className="brainStage">
-      <div className="brainMeta">
-        <span className="eyebrow">{eyebrow}</span>
-        <h1>{title}</h1>
-        <p>{description}</p>
-      </div>
-
       <div className="brainCanvas">
         <div className="brainAura brainAuraLeft" />
         <div className="brainAura brainAuraRight" />
-        <BrainGraphic />
+        <BrainGraphic variant={graphicVariant} cropPreset={graphicCropPreset} />
 
         <div className="brainMarkers" aria-hidden="true">
           <span />

@@ -46,7 +46,7 @@ export function PublicShareView({ shareId }: PublicShareViewProps) {
   return (
     <main className="pageShell">
       <div className="workspaceHeader">
-        <div>
+        <div className="workspaceTitleGroup">
           <span className="eyebrow">Public Share</span>
           <h1>{profile.displayName} さんのつぶやき</h1>
         </div>
@@ -60,10 +60,9 @@ export function PublicShareView({ shareId }: PublicShareViewProps) {
 
       <BrainStage
         whispers={whispers}
-        eyebrow="Open Stream"
-        title="ログインなしで眺められる思考の流れ"
-        description="保存されたつぶやきがリアルタイムに現れ、ゆっくり漂って消えていきます。"
         emptyText="まだ公開されたつぶやきはありません。"
+        graphicVariant="profile-cutaway"
+        graphicCropPreset="top-60"
       />
 
       <div className="workspaceFooter">

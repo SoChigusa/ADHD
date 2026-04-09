@@ -105,7 +105,6 @@ textarea {
 
 .heroCopy h1,
 .workspaceHeader h1,
-.brainMeta h1,
 .loadingPanel h1 {
   margin: 0;
   font-family: var(--font-display), sans-serif;
@@ -115,7 +114,6 @@ textarea {
 }
 
 .heroCopy p,
-.brainMeta p,
 .loadingPanel p,
 .workspaceFooter p,
 .statusMessage,
@@ -221,8 +219,14 @@ textarea {
   padding-inline: 0.4rem;
 }
 
+.workspaceTitleGroup {
+  display: grid;
+  gap: 0.8rem;
+}
+
 .workspaceHeader h1 {
   font-size: clamp(1.8rem, 3vw, 3.2rem);
+  line-height: 0.98;
 }
 
 .workspaceLinks {
@@ -239,24 +243,7 @@ textarea {
 
 .brainStage {
   position: relative;
-  display: grid;
-  gap: 1.2rem;
-  padding: clamp(1.2rem, 2vw, 1.8rem);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 40px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 250, 245, 0.54));
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(16px);
-}
-
-.brainMeta {
-  max-width: 48rem;
-  display: grid;
-  gap: 0.8rem;
-}
-
-.brainMeta h1 {
-  font-size: clamp(1.8rem, 3vw, 3.3rem);
+  display: block;
 }
 
 .brainCanvas {
@@ -269,14 +256,6 @@ textarea {
     radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.86), transparent 35%),
     linear-gradient(180deg, rgba(252, 248, 243, 0.82), rgba(237, 247, 243, 0.7));
   overflow: hidden;
-}
-
-.brainCanvas::before {
-  content: "";
-  position: absolute;
-  inset: 7% 11%;
-  border-radius: 48% 52% 53% 47% / 54% 41% 59% 46%;
-  border: 1px dashed rgba(97, 114, 132, 0.16);
 }
 
 .brainAura {
@@ -306,6 +285,22 @@ textarea {
   width: min(82%, 720px);
   transform: translate(-50%, -47%);
   filter: drop-shadow(0 24px 48px rgba(71, 84, 104, 0.14));
+}
+
+.brainGraphicCrop {
+  overflow: hidden;
+  display: block;
+}
+
+.brainGraphic.brainGraphicCrop {
+  width: min(92%, 840px);
+  transform: translate(-50%, -42%);
+}
+
+.brainGraphicSource {
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.98;
 }
 
 .brainMarkers {
@@ -395,14 +390,6 @@ textarea {
   color: var(--ink-soft);
 }
 
-.shareUrl {
-  max-width: 50%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.95rem;
-}
-
 .statusMessage {
   margin: 0;
   padding: 0.85rem 1rem;
@@ -431,14 +418,14 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.8rem;
+  gap: 0.7rem;
   z-index: 30;
 }
 
 .manageButton {
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 999px;
-  padding: 0.78rem 1.1rem;
+  padding: 0.78rem 1.12rem;
   background: rgba(255, 255, 255, 0.78);
   color: var(--ink);
   font-weight: 700;
@@ -454,8 +441,8 @@ textarea {
 }
 
 .addButton {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 4.25rem;
+  height: 4.25rem;
   border: 0;
   border-radius: 50%;
   background:
@@ -472,6 +459,20 @@ textarea {
     transform 180ms ease,
     box-shadow 180ms ease,
     opacity 180ms ease;
+}
+
+.floatingActions--stack {
+  flex-direction: column;
+}
+
+.floatingActions--stack .manageButton {
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.floatingActions--stack .addButton {
+  box-shadow:
+    0 18px 42px rgba(255, 110, 62, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.44);
 }
 
 .dialogBackdrop {
@@ -536,6 +537,12 @@ textarea {
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
+  margin-bottom: 1.15rem;
+}
+
+.manageDialogTitle {
+  display: grid;
+  gap: 0.9rem;
 }
 
 .manageDialogCount {
@@ -686,6 +693,21 @@ textarea {
 
 .manageDialogFooter {
   margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.manageDialogStatus {
+  margin-bottom: 1rem;
+}
+
+.manageCloseButton {
+  min-width: 7rem;
+  padding-inline: 1.1rem;
+  border: 1px solid rgba(32, 34, 52, 0.08);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(249, 252, 250, 0.82));
+  box-shadow:
+    0 12px 28px rgba(73, 87, 104, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
 }
 
 .dialogFooter,

@@ -100,10 +100,9 @@ export function AppShell() {
 
           <BrainStage
             whispers={sampleWhispers}
-            eyebrow="Preview"
-            title="頭の中にふっと現れる断片"
-            description="実際のつぶやきはログイン後にあなた専用のスペースへ保存されます。"
             emptyText="ログインすると、ここにあなたのつぶやきが流れ始めます。"
+            graphicVariant="profile-cutaway"
+            graphicCropPreset="top-60"
           />
         </section>
       </main>
@@ -113,7 +112,7 @@ export function AppShell() {
   return (
     <main className="pageShell">
       <div className="workspaceHeader">
-        <div>
+        <div className="workspaceTitleGroup">
           <span className="eyebrow">Private Space</span>
           <h1>{profile?.displayName ?? "Mind Drift"}</h1>
         </div>
@@ -137,10 +136,9 @@ export function AppShell() {
 
       <BrainStage
         whispers={whispers}
-        eyebrow="Inner Loop"
-        title="頭の中でつぶやきが巡る"
-        description="保存された言葉がランダムに浮かび、少し漂ってから消えていきます。"
         emptyText="右下の追加ボタンから、最初のつぶやきを置いてみましょう。"
+        graphicVariant="profile-cutaway"
+        graphicCropPreset="top-60"
       />
 
       <div className="workspaceFooter">
@@ -149,13 +147,12 @@ export function AppShell() {
             ? "つぶやきを同期しています..."
             : `${whispers.length} 件のつぶやきが保存されています。`}
         </p>
-        {shareUrl ? <p className="shareUrl">{shareUrl}</p> : null}
       </div>
 
       {error ? <p className="statusMessage errorMessage">{error}</p> : null}
       {whispersError ? <p className="statusMessage errorMessage">{whispersError}</p> : null}
 
-      <div className="floatingActions">
+      <div className="floatingActions floatingActions--stack">
         <button
           className="manageButton"
           type="button"

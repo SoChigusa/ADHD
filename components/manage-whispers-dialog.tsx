@@ -149,10 +149,9 @@ export function ManageWhispersDialog({
         onClick={(event) => event.stopPropagation()}
       >
         <div className="dialogHeader manageDialogHeader">
-          <div>
+          <div className="manageDialogTitle">
             <span className="eyebrow">Whisper Library</span>
             <h2 id="manage-whispers-title">つぶやきを整理する</h2>
-            <p>一覧をスクロールしながら、内容の編集と削除をその場で行えます。</p>
           </div>
           <p className="manageDialogCount">{whispers.length} 件</p>
         </div>
@@ -281,13 +280,18 @@ export function ManageWhispersDialog({
           )}
         </div>
 
+        {error && !editingId ? (
+          <p className="statusMessage errorMessage manageDialogStatus">{error}</p>
+        ) : null}
+
         <div className="dialogFooter manageDialogFooter">
-          <div className="dialogMeta">
-            <span>古いものからではなく、新しいつぶやき順に表示しています。</span>
-            {error && !editingId ? <span className="dialogError">{error}</span> : null}
-          </div>
           <div className="dialogActions">
-            <button type="button" className="textButton" onClick={onClose} disabled={Boolean(activeItemId)}>
+            <button
+              type="button"
+              className="softButton manageCloseButton"
+              onClick={onClose}
+              disabled={Boolean(activeItemId)}
+            >
               閉じる
             </button>
           </div>
