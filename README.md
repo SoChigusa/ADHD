@@ -115,3 +115,16 @@ firebase deploy --only firestore:rules
 4. デプロイ
 
 `NEXT_PUBLIC_APP_URL` には本番 URL を設定してください。公開ページのリンク生成に使います。
+
+## 公開 API
+
+公開ページと同じデータを、外部サイトから JSON で取得できます。
+
+```text
+GET /api/public/{shareId}?limit=24
+```
+
+- `limit` は `1` から `50` までです。
+- 公開プロフィールの表示名と、作成日時の新しい順につぶやきを返します。
+- API は公開データだけを返し、ユーザー ID やメールアドレスは含みません。
+- レスポンスは CORS を許可し、Vercel CDN で短時間キャッシュされます。
