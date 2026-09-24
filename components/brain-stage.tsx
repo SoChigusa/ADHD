@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { useFloatingWhispers } from "@/hooks/use-floating-whispers";
+import { useStreamingWhispers } from "@/hooks/use-streaming-whispers";
 import type { Whisper } from "@/lib/types";
 import { BrainGraphic } from "./brain-graphic";
 import type { BrainGraphicCropPreset, BrainGraphicVariant } from "./brain-graphic";
@@ -19,11 +19,11 @@ export function BrainStage({
   graphicVariant = "profile-cutaway",
   graphicCropPreset = "top-60",
 }: BrainStageProps) {
-  const floatingWhispers = useFloatingWhispers(whispers);
+  const streamingWhispers = useStreamingWhispers(whispers);
 
   return (
     <section className="brainStage">
-      <div className="brainCanvas">
+      <div aria-label="公開されたつぶやき" className="brainCanvas" role="region">
         <div className="brainAura brainAuraLeft" />
         <div className="brainAura brainAuraRight" />
         <BrainGraphic variant={graphicVariant} cropPreset={graphicCropPreset} />
@@ -36,26 +36,31 @@ export function BrainStage({
           <span />
         </div>
 
-        {floatingWhispers.map((whisper) => (
-          <article
-            key={whisper.instanceId}
-            className="whisperBubble"
-            style={
-              {
-                left: `${whisper.left}%`,
-                top: `${whisper.top}%`,
-                "--drift-x": `${whisper.driftX}px`,
-                "--drift-y": `${whisper.driftY}px`,
-                "--duration": `${whisper.durationMs}ms`,
-                "--rotate-start": `${whisper.rotationStart}deg`,
-                "--rotate-end": `${whisper.rotationEnd}deg`,
-                "--bubble-hue": `${whisper.hue}deg`,
-              } as CSSProperties
-            }
-          >
-            <p>{whisper.text}</p>
-          </article>
-        ))}
+        <div aria-hidden="true" className="whisperStream">
+          {streamingWhispers.map((whisper) => (
+            <p
+              key={whisper.instanceId}
+              className="streamingWhisper"
+              style={
+                {
+                  top: `${whisper.top}%`,
+                  "--duration": `${whisper.durationMs}ms`,
+                  "--font-size": `${whisper.fontSizeRem}rem`,
+                  "--font-weight": whisper.fontWeight,
+                  "--opacity": whisper.opacity,
+                } as CSSProperties
+              }
+            >
+              {whisper.text}
+            </p>
+          ))}
+        </div>
+
+        <ul className="reducedMotionWhispers">
+          {whispers.slice(0, 12).map((whisper) => (
+            <li key={whisper.id}>{whisper.text}</li>
+          ))}
+        </ul>
 
         {!whispers.length ? <p className="brainEmpty">{emptyText}</p> : null}
       </div>
